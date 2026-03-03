@@ -258,9 +258,9 @@ footer{
 <div class="stopWatch">
     <div class="display">00:00:00</div>
     <div class="buttons">
-        <button id="stop"><i class="fa-solid fa-stop"></i></button>
-        <button id="start"><i class="fa-solid fa-play"></i></button>
-        <button id="reset"><i class="fa-solid fa-rotate-right"></i></button>
+        <button id="stop" onclick="WatchStop()"><i class="fa-solid fa-stop"></i></button>
+        <button id="start" onclick="startWatch()"><i class="fa-solid fa-play"></i></button>
+        <button id="reset" onclick="ResetWatch()"><i class="fa-solid fa-rotate-right"></i></button>
     </div>
 </div>
 
@@ -276,6 +276,7 @@ footer{
     </p>
 
     <p class="copyright">
+        
       © <span id="year"></span> All Rights Reserved
     </p>
   </div>
@@ -287,13 +288,45 @@ footer{
     document.getElementById("year").textContent = new Date().getFullYear();
     let [seconds, minutes, hours] = [0,0,0];
     let display = document.querySelector(".display");
+    let timmer = null;
+    let start = document.getElementById("start");
+    let stop = document.getElementById("stop");
 
     function stopWatch(){
         seconds++;
         if(seconds == 60){
             seconds = 0;
-            
+            minutes++;
+            if(minutes == 60){
+                minutes = 0;
+                hours++; 
+            }
         }
+        let h = hours < 10 ? "0" + hours : hours;
+        let m = minutes < 10 ? "0" + minutes : minutes;
+        let s = seconds < 10 ? "0" + seconds : seconds;
+
+
+        display.innerHTML = h + ":" + m + ":" + s;
+    }
+    function startWatch(){
+        if(timmer !== null){
+            clearInterval(timmer);
+        }
+        timmer = setInterval(stopWatch,1000);
+        start.innerHTML = `<i class="fa-solid fa-play"></i>`;
+    }
+
+    function WatchStop(){
+        clearInterval(timmer);
+        start.innerHTML = `<i class="fa-solid fa-circle-pause" id = "start" style="color: rgb(236, 235, 231);"></i>`;
+
+    }
+    function ResetWatch(){
+        clearInterval(timmer);
+        [seconds, minutes, hours] = [0,0,0];
+        display.innerHTML = "00:00:00";
+        start.innerHTML = `<i class="fa-solid fa-play"></i>`;
     }
 </script>
 </body>
