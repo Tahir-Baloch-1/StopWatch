@@ -17,17 +17,16 @@
 
 body{
     font-family: 'Orbitron', sans-serif;
-    height:100vh;
+    min-height:100vh;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     background:#0a0f1c;
-    overflow:hidden;
     color:#fff;
+    overflow-x:hidden;
 }
 
-/* Animated Background Circles */
 body::before,
 body::after{
     content:"";
@@ -38,6 +37,7 @@ body::after{
     filter:blur(120px);
     opacity:0.6;
     animation: float 10s infinite alternate ease-in-out;
+    z-index:-1;
 }
 
 body::before{
@@ -57,18 +57,18 @@ body::after{
     to{transform:translateY(40px);}
 }
 
-/* Header */
 header{
-    position:absolute;
+    position:fixed;
     top:0;
     width:100%;
-    padding:20px 50px;
+    padding:20px 40px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     background:rgba(255,255,255,0.05);
     backdrop-filter:blur(10px);
     border-bottom:1px solid rgba(255,255,255,0.1);
+    z-index:1000;
 }
 
 header h2{
@@ -77,9 +77,13 @@ header h2{
     color:#00f5ff;
 }
 
+header nav{
+    display:flex;
+    gap:25px;
+}
+
 header nav a{
     color:#fff;
-    margin-left:25px;
     text-decoration:none;
     transition:0.3s;
 }
@@ -88,11 +92,84 @@ header nav a:hover{
     color:#ff00c8;
 }
 
-/* Hero */
+.toggle-btn{
+    display:none;
+    width:35px;
+    height:25px;
+    position:relative;
+    cursor:pointer;
+    z-index:1100;
+}
+
+.toggle-btn span{
+    position:absolute;
+    width:100%;
+    height:4px;
+    background:linear-gradient(90deg,#00f5ff,#ff00c8);
+    border-radius:5px;
+    transition:0.4s ease;
+}
+
+.toggle-btn span:nth-child(1){
+    top:0;
+}
+.toggle-btn span:nth-child(2){
+    top:10px;
+}
+.toggle-btn span:nth-child(3){
+    bottom:0;
+}
+
+.toggle-btn.active span:nth-child(1){
+    transform:rotate(45deg);
+    top:10px;
+}
+
+.toggle-btn.active span:nth-child(2){
+    opacity:0;
+}
+
+.toggle-btn.active span:nth-child(3){
+    transform:rotate(-45deg);
+    bottom:11px;
+}
+
+@media(max-width:768px){
+    .toggle-btn{
+        display:block;
+    }
+}
+
+@media(max-width:768px){
+    header{
+        padding:20px;
+    }
+
+    header nav{
+        position:absolute;
+        top:80px;
+        right:-100%;
+        flex-direction:column;
+        background:rgba(0,0,0,0.9);
+        width:200px;
+        padding:20px;
+        transition:0.4s;
+        border-radius:10px;
+    }
+
+    header nav.show{
+        right:20px;
+    }
+
+    .toggle-btn{
+        display:block;
+    }
+}
+
 .hero{
     text-align:center;
+    margin-top:120px;
     margin-bottom:40px;
-    animation:fadeIn 1.5s ease;
 }
 
 .hero h1{
@@ -109,14 +186,8 @@ header nav a:hover{
     font-size:18px;
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
-}
 
-/* Stopwatch Card */
 .stopWatch{
-    position:relative;
     padding:50px 60px;
     border-radius:25px;
     background:rgba(255,255,255,0.08);
@@ -130,7 +201,6 @@ header nav a:hover{
     box-shadow:0 0 70px rgba(255,0,200,0.6);
 }
 
-/* Time Display */
 .display{
     font-size:60px;
     letter-spacing:4px;
@@ -138,16 +208,14 @@ header nav a:hover{
     text-shadow:0 0 20px #00f5ff;
 }
 
-/* Buttons */
 .buttons{
     display:flex;
     gap:25px;
     justify-content:center;
-    align-items:center;
 }
 
+
 button{
-    position:relative;
     width:70px;
     height:70px;
     border-radius:50%;
@@ -156,86 +224,30 @@ button{
     font-size:22px;
     color:#fff;
     background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(10px);
     transition:0.4s;
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
 }
-
-/* Neon Ring Effect */
-button::before{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    border:2px solid transparent;
-    transition:0.4s;
-}
-
-#start::before{ border-color:#00ffae; }
-#stop::before{ border-color:#ff0055; }
-#reset::before{ border-color:#00c3ff; }
 
 button:hover{
     transform:scale(1.2);
 }
 
-button:hover::before{
-    box-shadow:0 0 25px currentColor;
+
+.unique-footer{
+    margin-top:50px;
+    padding:20px;
+    text-align:center;
+    font-size:14px;
+    opacity:0.8;
 }
 
-/* Footer */
-footer{
-    position:absolute;
-    bottom:15px;
-    font-size:13px;
-    opacity:0.6;
-}
 
 @media(max-width:600px){
     .hero h1{ font-size:35px; }
     .display{ font-size:40px; }
     .stopWatch{ padding:30px; }
-}
-.unique-footer {
-  background: #0d0d0d;
-  padding: 30px 15px;
-  text-align: center;
-  color: #fff;
-  font-family: 'Segoe UI', sans-serif;
-  border-top: 2px solid #00f7ff;
-}
-
-.app-name {
-  font-size: 18px;
-  color: #00f7ff;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-}
-
-.credit {
-  font-size: 15px;
-  margin-bottom: 8px;
-}
-
-.credit a {
-  color: #00ffcc;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.credit a:hover {
-  color: #ffffff;
-  text-shadow: 0 0 8px #00ffcc;
-}
-
-.copyright {
-  font-size: 13px;
-  opacity: 0.7;
 }
 </style>
 </head>
@@ -243,7 +255,12 @@ footer{
 
 <header>
     <h2>STOPWATCH PRO</h2>
-    <nav>
+    <div class="toggle-btn" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+    <nav id="menu">
         <a href="#">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
@@ -256,78 +273,74 @@ footer{
 </div>
 
 <div class="stopWatch">
-    <div class="display">00:00:00</div>
+    <div class="display" id="display">00:00:00</div>
     <div class="buttons">
-        <button id="stop" onclick="WatchStop()"><i class="fa-solid fa-stop"></i></button>
-        <button id="start" onclick="startWatch()"><i class="fa-solid fa-play"></i></button>
-        <button id="reset" onclick="ResetWatch()"><i class="fa-solid fa-rotate-right"></i></button>
+        <button id="stop"><i class="fa-solid fa-stop"></i></button>
+        <button id="start"><i class="fa-solid fa-play"></i></button>
+        <button id="reset"><i class="fa-solid fa-rotate-right"></i></button>
     </div>
 </div>
 
 <footer class="unique-footer">
-  <div class="footer-inner">
-    <p class="app-name">⏱ Stopwatch App</p>
-    
-    <p class="credit">
-      Crafted with precision by 
-      <a href="https://hyderabadwristtitans.netlify.app/" target="_blank">
-        Hyderabad Wrist Titans
-      </a>
-    </p>
-
-    <p class="copyright">
-        
-      © <span id="year"></span> All Rights Reserved
-    </p>
-  </div>
+    © <span id="year"></span> All Rights Reserved
 </footer>
 
-
-
 <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-    let [seconds, minutes, hours] = [0,0,0];
-    let display = document.querySelector(".display");
-    let timmer = null;
-    let start = document.getElementById("start");
-    let stop = document.getElementById("stop");
+const display = document.getElementById("display");
+const startBtn = document.getElementById("start");
+const stopBtn = document.getElementById("stop");
+const resetBtn = document.getElementById("reset");
 
-    function stopWatch(){
-        seconds++;
-        if(seconds == 60){
-            seconds = 0;
-            minutes++;
-            if(minutes == 60){
-                minutes = 0;
-                hours++; 
-            }
+let seconds = 0, minutes = 0, hours = 0;
+let timer = null;
+let isRunning = false;
+
+function updateDisplay(){
+    let h = hours < 10 ? "0" + hours : hours;
+    let m = minutes < 10 ? "0" + minutes : minutes;
+    let s = seconds < 10 ? "0" + seconds : seconds;
+    display.textContent = `${h}:${m}:${s}`;
+}
+
+function stopwatch(){
+    seconds++;
+    if(seconds === 60){
+        seconds = 0;
+        minutes++;
+        if(minutes === 60){
+            minutes = 0;
+            hours++;
         }
-        let h = hours < 10 ? "0" + hours : hours;
-        let m = minutes < 10 ? "0" + minutes : minutes;
-        let s = seconds < 10 ? "0" + seconds : seconds;
-
-
-        display.innerHTML = h + ":" + m + ":" + s;
     }
-    function startWatch(){
-        if(timmer !== null){
-            clearInterval(timmer);
-        }
-        timmer = setInterval(stopWatch,1000);
-        start.innerHTML = `<i class="fa-solid fa-play"></i>`;
-    }
+    updateDisplay();
+}
 
-    function WatchStop(){
-        clearInterval(timmer);
-        start.innerHTML = `<i class="fa-solid fa-circle-pause" id = "start" style="color: rgb(236, 235, 231);"></i>`;
+startBtn.addEventListener("click", function(){
+    if(!isRunning){
+        timer = setInterval(stopwatch, 1000);
+        isRunning = true;
+    }
+});
 
-    }
-    function ResetWatch(){
-        clearInterval(timmer);
-        [seconds, minutes, hours] = [0,0,0];
-        display.innerHTML = "00:00:00";
-        start.innerHTML = `<i class="fa-solid fa-play"></i>`;
-    }
+stopBtn.addEventListener("click", function(){
+    clearInterval(timer);
+    isRunning = false;
+});
+
+resetBtn.addEventListener("click", function(){
+    clearInterval(timer);
+    seconds = minutes = hours = 0;
+    isRunning = false;
+    updateDisplay();
+});
+
+function toggleMenu(){
+    document.getElementById("menu").classList.toggle("show");
+    document.querySelector(".toggle-btn").classList.toggle("active");
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
+
 </body>
 </html>
